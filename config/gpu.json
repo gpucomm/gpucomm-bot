@@ -1,0 +1,6 @@
+{
+  "gpu_checks": true,
+  "require_benchmark": true,
+  "allowed_cuda_versions": ["11.8", "12.0"]
+}
+

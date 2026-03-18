@@ -1,0 +1,24 @@
+name: GPU CI
+
+on:
+  pull_request:
+
+jobs:
+  gpu-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check GPU
+        run: |
+          if command -v nvidia-smi &> /dev/null
+          then
+            nvidia-smi
+          else
+            echo "No GPU available"
+          fi
+
+      - name: Simulated GPU test
+        run: echo "Running GPU validation..."
+

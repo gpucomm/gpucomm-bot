@@ -1,0 +1,13 @@
+{
+  "name": "gpucomm-bot",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "app/main.js",
+  "scripts": {
+    "start": "node app/main.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
+
