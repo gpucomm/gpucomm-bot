@@ -5,20 +5,19 @@ on:
 
 jobs:
   gpu-check:
-    runs-on: ubuntu-latest
+    # Real GPU validation requires a self-hosted runner with NVIDIA drivers + CUDA toolkit installed.
+    # Recommended runner labels: self-hosted, linux, x64, gpu
+    runs-on: [self-hosted, linux, x64, gpu]
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Check GPU
-        run: |
-          if command -v nvidia-smi &> /dev/null
-          then
-            nvidia-smi
-          else
-            echo "No GPU available"
-          fi
+      - name: GPU + CUDA smoke tests (nvcc)
+        run: bash scripts/gpu-ci.sh
 
-      - name: Simulated GPU test
-        run: echo "Running GPU validation..."
-
+      - name: PyTorch CUDA smoke test
+        env:
+          # Set this to the correct wheel index for your runner/toolkit, e.g.
+          # https://download.pytorch.org/whl/cu121
+          PYTORCH_INDEX_URL: ${{ vars.PYTORCH_INDEX_URL }}
+        run: bash scripts/gpu-ci.sh pytorch

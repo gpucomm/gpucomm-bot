@@ -26,3 +26,10 @@ Next step depends on what you want this bot to do in GitHub (right now it just l
    - Best long-term: a GitHub App + webhook + installation tokens (lets the bot comment, label, run checks, etc.).
 3) Turn logs into actions: on PR open/update, post a comment / apply labels / set a “GPU required” check; on release, trigger benchmark workflow.
 4) Make GPU CI real: add a self-hosted GPU runner and switch `gpu.yml` to run actual CUDA tests/benchmarks.
+
+## Real GPU CI
+`GPU CI` (`.github/workflows/gpu.yml`) is configured for a self-hosted runner with NVIDIA drivers + CUDA toolkit.
+
+- Runner labels: `self-hosted`, `linux`, `x64`, `gpu`
+- CUDA smoke test: `bash scripts/gpu-ci.sh` (compiles `scripts/cuda_smoke_test.cu` with `nvcc`)
+- PyTorch smoke test: set repo/org variable `PYTORCH_INDEX_URL` (example: `https://download.pytorch.org/whl/cu121`) then run `bash scripts/gpu-ci.sh pytorch`

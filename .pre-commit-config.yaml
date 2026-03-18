@@ -1,0 +1,29 @@
+default_stages: [pre-commit, pre-push]
+
+repos:
+  - repo: local
+    hooks:
+      - id: sanity-shell
+        name: bash -n scripts/*.sh
+        entry: bash -c 'set -euo pipefail; bash -n scripts/*.sh'
+        language: system
+        pass_filenames: false
+
+      - id: sanity-node
+        name: node --check (app/*.js)
+        entry: bash -c 'set -euo pipefail; node --check app/main.js; node --check app/routes.js; node --check app/handlers/pr.js; node --check app/handlers/issues.js; node --check app/handlers/release.js'
+        language: system
+        pass_filenames: false
+
+      - id: sanity-python
+        name: python -m py_compile (pytorch smoke)
+        entry: bash -c 'set -euo pipefail; python3 -m py_compile scripts/pytorch_smoke_test.py'
+        language: system
+        pass_filenames: false
+
+      - id: forbid-npm-cache
+        name: forbid .npm-cache
+        entry: bash -c 'set -euo pipefail; test ! -e .npm-cache'
+        language: system
+        pass_filenames: false
+
