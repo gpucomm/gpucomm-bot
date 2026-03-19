@@ -16,14 +16,16 @@ export async function handleIssues(payload) {
 
       try {
         const gh = createGitHubClientFromEnv();
+        console.log(`[issues] Posting comment on #${issueNumber}`);
         await gh.createIssueComment({
           owner,
           repo,
           issueNumber,
           body: `gpucomm-bot: Thanks for opening this issue! It has been tagged for GPU-related triage.`,
         });
+        console.log(`[issues] Comment posted on #${issueNumber}`);
       } catch (err) {
-        console.warn("GitHub App auth not configured or failed:", err?.message ?? err);
+        console.error("[issues] GitHub API error:", err?.message ?? err);
       }
     }
   }
