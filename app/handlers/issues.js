@@ -24,6 +24,13 @@ export async function handleIssues(payload) {
           body: `gpucomm-bot: Thanks for opening this issue! It has been tagged for GPU-related triage.`,
         });
         console.log(`[issues] Comment posted on #${issueNumber}`);
+
+        const label = process.env.GPUCOMM_GPU_LABEL;
+        if (label) {
+          await gh.addLabels({ owner, repo, issueNumber, labels: [label] }).catch(
+            (err) => console.warn("[issues] Labeling failed:", err?.message ?? err)
+          );
+        }
       } catch (err) {
         console.error("[issues] GitHub API error:", err?.message ?? err);
       }
