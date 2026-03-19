@@ -1,5 +1,7 @@
+import "dotenv/config";
 import express from "express";
-import routes from "./routes.js";
+import { handleWebhook } from "./routes.js";
+import { verifyWebhookSignature } from "./webhook/verify.js";
 
 const app = express();
 app.use(express.json());
@@ -8,7 +10,36 @@ app.get("/", (req, res) => {
   res.status(200).type("text/plain").send("gpucomm-bot up. POST /webhook");
 });
 
-app.use("/webhook", routes);
+app.get("/health", (req, res) => {
+  res.json({ status: "ok", timestamp: new Date().toISOString() });
+});
+
+app.use((err, req, res, next) => {
+  console.error("[error]", err?.message ?? err);
+  res.status(500).json({ error: "Internal server error" });
+});
+
+app.post("/webhook", (req, res, next) => {
+  const sig = req.headers["x-hub-signature-256"];
+  const secret = process.env.WEBHOOK_SECRET;
+
+  if (!secret) {
+    console.warn("WEBHOOK_SECRET not set, skipping verification");
+    return next();
+  }
+
+  if (!sig) {
+    console.warn("Missing X-Hub-Signature-256 header");
+    return res.sendStatus(401);
+  }
+
+  if (!verifyWebhookSignature(req.body, sig, secret)) {
+    console.warn("Invalid webhook signature");
+    return res.sendStatus(401);
+  }
+
+  next();
+}, handleWebhook);
 
 const port = Number.parseInt(process.env.PORT ?? "3000", 10);
 const host = process.env.HOST ?? "127.0.0.1";
