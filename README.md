@@ -53,6 +53,18 @@ We tried Railway first but the trial expired. [Render](https://render.com) was u
 
 ## GitHub App Setup
 
+### Bot in Action
+
+PR with gpu-required label applied:
+
+![PR with GPU Label](docs/images/pr-gpu-label.png)
+
+Issue with bot comment:
+
+![Issue Comment](docs/images/issue-comment.png)
+
+### Setup Steps
+
 1. Create a GitHub App at https://github.com/apps/gpucomm-bot
 2. Enable webhook and set URL to your bot's endpoint
 3. Set permissions: Pull requests (read/write), Issues (read/write), Contents (read), Metadata (read)
