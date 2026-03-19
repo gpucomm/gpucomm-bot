@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>gpucomm-bot</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      color: #333;
+      line-height: 1.6;
+    }
+    h1 { font-size: 2em; margin-bottom: 0.5em; }
+    h2 { font-size: 1.5em; margin-top: 2em; border-bottom: 1px solid #eee; padding-bottom: 0.5em; }
+    h3 { font-size: 1.2em; margin-top: 1.5em; }
+    p { margin: 1em 0; }
+    ul { padding-left: 1.5em; }
+    li { margin: 0.5em 0; }
+    code { background: #f5f5f5; padding: 2px 6px; border-radius: 3px; }
+    pre { background: #f5f5f5; padding: 16px; border-radius: 6px; overflow-x: auto; }
+    pre code { background: none; padding: 0; }
+    img { max-width: 100%; border: 1px solid #eee; margin: 1em 0; }
+    .section { margin: 2em 0; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid #eee; padding: 10px; text-align: left; }
+    th { background: #f9f9f9; }
+    a { color: #0066cc; }
+    hr { border: none; border-top: 1px solid #eee; margin: 2em 0; }
+  </style>
+</head>
+<body>
+
+<h1>gpucomm-bot</h1>
+<p>GPU-aware automation and CI engine for the gpucomm organization.</p>
+
+<div class="section">
+  <h2>Features</h2>
+  <ul>
+    <li>GPU / CUDA validation in PRs</li>
+    <li>CI checks for compute pipelines</li>
+    <li>Benchmark triggers before release</li>
+    <li>Issue and PR automation</li>
+  </ul>
+</div>
+
+<div class="section">
+  <h2>Bot in Action</h2>
+  
+  <h3>PR with GPU Label</h3>
+  <img src="https://raw.githubusercontent.com/gpucomm/gpucomm-bot/main/docs/images/pr-gpu-label.png" alt="PR with GPU Label">
+  
+  <h3>Issue Comment</h3>
+  <img src="https://raw.githubusercontent.com/gpucomm/gpucomm-bot/main/docs/images/issue-comment.png" alt="Issue Comment">
+</div>
+
+<div class="section">
+  <h2>Specifications</h2>
+  
+  <table>
+    <tr><th>Item</th><th>Value</th></tr>
+    <tr><td>Language</td><td>Node.js</td></tr>
+    <tr><td>Framework</td><td>Express.js</td></tr>
+    <tr><td>Authentication</td><td>GitHub App JWT + Installation Tokens</td></tr>
+    <tr><td>Webhook Security</td><td>X-Hub-Signature-256 (HMAC-SHA256)</td></tr>
+    <tr><td>Hosting</td><td>Render (Free Tier)</td></tr>
+    <tr><td>URL</td><td>https://gpucomm-bot.onrender.com</td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <h2>Behavior</h2>
+  
+  <h3>PR Detection</h3>
+  <p>When a PR is opened with "GPU", "CUDA", or "NVIDIA" in the title:</p>
+  <ul>
+    <li>Posts a comment indicating GPU-related status</li>
+    <li>Applies the <code>gpu-required</code> label</li>
+  </ul>
+  
+  <h3>Issue Detection</h3>
+  <p>When an issue is opened with "GPU", "CUDA", or "NVIDIA" in the title:</p>
+  <ul>
+    <li>Posts a triage comment</li>
+    <li>Applies the <code>gpu-required</code> label</li>
+  </ul>
+  
+  <h3>Release Events</h3>
+  <p>Logs release events for benchmark triggering (Track B).</p>
+</div>
+
+<div class="section">
+  <h2>Environment Variables</h2>
+  <pre><code>PORT=3000
+HOST=0.0.0.0
+WEBHOOK_SECRET=&lt;your-secret&gt;
+GITHUB_APP_ID=&lt;app-id&gt;
+GITHUB_INSTALLATION_ID=&lt;installation-id&gt;
+GITHUB_PRIVATE_KEY_B64=&lt;base64-encoded-pem&gt;
+GPUCOMM_GPU_LABEL=gpu-required</code></pre>
+</div>
+
+<div class="section">
+  <h2>Legal</h2>
+  
+  <h3>License</h3>
+  <p>MIT License - see <a href="https://github.com/gpucomm/gpucomm-bot/blob/main/LICENSE">LICENSE</a></p>
+  
+  <h3>Data Handling</h3>
+  <p>This bot processes GitHub webhook events containing:</p>
+  <ul>
+    <li>PR titles and metadata</li>
+    <li>Issue titles and metadata</li>
+    <li>Release event data</li>
+  </ul>
+  <p>No personal data is stored beyond GitHub's standard webhook payload.</p>
+  
+  <h3>Rate Limits</h3>
+  <p>Subject to GitHub API rate limits. Uses installation tokens for authentication.</p>
+</div>
+
+<div class="section">
+  <h2>Contact</h2>
+  <p>Repository: <a href="https://github.com/gpucomm/gpucomm-bot">github.com/gpucomm/gpucomm-bot</a></p>
+  <p>GitHub App: <a href="https://github.com/apps/gpucomm-bot">github.com/apps/gpucomm-bot</a></p>
+</div>
+
+<hr>
+<p><small>Last updated: March 2026</small></p>
+
+</body>
+</html>
