@@ -16,7 +16,7 @@ export async function handleIssues(payload) {
 
       try {
         const gh = createGitHubClientFromEnv();
-        console.log(`[issues] Posting comment on #${issueNumber}`);
+        console.log(`[issues] Posting comment on #${issueNumber} for ${owner}/${repo}`);
         await gh.createIssueComment({
           owner,
           repo,
