@@ -53,7 +53,7 @@ We tried Railway first but the trial expired. [Render](https://render.com) was u
 
 ## GitHub App Setup
 
-1. Create a GitHub App at `https://github.com/settings/apps/new`
+1. Create a GitHub App at https://github.com/apps/gpucomm-bot
 2. Enable webhook and set URL to your bot's endpoint
 3. Set permissions: Pull requests (read/write), Issues (read/write), Contents (read), Metadata (read)
 4. Subscribe to events: Pull request, Issues, Release
