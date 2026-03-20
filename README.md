@@ -49,9 +49,18 @@ We tried Railway first but the trial expired. [Render](https://render.com) was u
    GITHUB_PRIVATE_KEY_B64=<base64-encoded-pem>
    GPUCOMM_GPU_LABEL=gpu-required
    ```
-4. Update GitHub App webhook URL to: `https://<your-render-url>/webhook`
 
 ## GitHub App Setup
+
+1. **Create**: Go to https://github.com/settings/apps/new and create an app named `gpucomm-bot`
+2. **Install**: Install the app on your account/org at https://github.com/apps/gpucomm-bot/installations/new
+3. **Webhook**: In GitHub App settings → Webhook, enter `https://<your-domain>/webhook`
+4. **Permissions**: Set to: Pull requests (read/write), Issues (read/write), Contents (read), Metadata (read)
+5. **Events**: Subscribe to: Pull request, Issues, Release
+6. **Private key**: Generate a private key, then convert to base64:
+   ```bash
+   base64 -i private-key.pem | tr -d '\n'
+   ```
 
 ### Bot in Action
 
@@ -62,18 +71,6 @@ PR with gpu-required label applied:
 Issue with bot comment:
 
 ![Issue Comment](docs/images/issue-comment.png)
-
-### Setup Steps
-
-1. Create a GitHub App at https://github.com/apps/gpucomm-bot
-2. Enable webhook and set URL to your bot's endpoint
-3. Set permissions: Pull requests (read/write), Issues (read/write), Contents (read), Metadata (read)
-4. Subscribe to events: Pull request, Issues, Release
-5. Install the app on your account/org
-6. Generate a private key and convert to base64:
-   ```bash
-   base64 -i private-key.pem | tr -d '\n'
-   ```
 
 ## Real GPU CI
 `GPU CI` (`.github/workflows/gpu.yml`) is configured for a self-hosted runner with NVIDIA drivers + CUDA toolkit.
