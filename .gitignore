@@ -5,3 +5,5 @@ node_modules/
 npm-debug.log*
 .venv/
 __pycache__/
+*private-key*.pem
+*private_key*.pem

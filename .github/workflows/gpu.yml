@@ -2,11 +2,19 @@ name: GPU CI
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened, labeled]
 
 jobs:
   gpu-check:
     # Real GPU validation requires a self-hosted runner with NVIDIA drivers + CUDA toolkit installed.
     # Recommended runner labels: self-hosted, linux, x64, gpu
+    #
+    # Guardrail: avoid queueing this job for every PR when no GPU runner is online.
+    # The bot can apply a label like `gpu-required` to trigger this job.
+    if: |
+      contains(join(github.event.pull_request.labels.*.name, ','), 'gpu-required') ||
+      contains(toLower(github.event.pull_request.title), 'gpu') ||
+      contains(toLower(github.event.pull_request.title), 'cuda')
     runs-on: [self-hosted, linux, x64, gpu]
 
     steps:

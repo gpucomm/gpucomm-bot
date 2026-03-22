@@ -20,6 +20,17 @@ if [[ "$mode" == "cuda" ]]; then
 
   nvcc --version
 
+  if [[ "${GPUCOMM_ENFORCE_CUDA_VERSION:-}" == "true" ]]; then
+    allowed_versions="$(node -e "const c=require('./config/gpu.json'); console.log((c.allowed_cuda_versions||[]).join(','))" 2>/dev/null || true)"
+    if [[ -n "$allowed_versions" ]]; then
+      detected="$(nvcc --version | sed -n 's/.*release \\([0-9][0-9]*\\.[0-9][0-9]*\\).*/\\1/p' | head -n 1)"
+      if [[ -n "$detected" && ",$allowed_versions," != *",$detected,"* ]]; then
+        echo "ERROR: CUDA toolkit version $detected not in allowed list: $allowed_versions"
+        exit 1
+      fi
+    fi
+  fi
+
   out_bin="$(mktemp -t cuda-smoke-XXXXXX)"
   rm -f "$out_bin"
 
@@ -59,4 +70,3 @@ fi
 
 echo "ERROR: unknown mode '$mode' (expected: cuda|pytorch)"
 exit 2
-
