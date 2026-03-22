@@ -76,7 +76,9 @@ Issue with bot comment:
 `GPU CI` (`.github/workflows/gpu.yml`) is configured for a self-hosted runner with NVIDIA drivers + CUDA toolkit.
 
 - Runner labels: `self-hosted`, `linux`, `x64`, `gpu`
+- Workflow gate: runs only if PR has label `gpu-required` **or** the PR title contains `gpu`/`cuda`
 - CUDA smoke test: `bash scripts/gpu-ci.sh` (compiles `scripts/cuda_smoke_test.cu` with `nvcc`)
+- Optional: set `GPUCOMM_ENFORCE_CUDA_VERSION=true` to enforce `config/gpu.json.allowed_cuda_versions`
 - PyTorch smoke test: set repo/org variable `PYTORCH_INDEX_URL` (example: `https://download.pytorch.org/whl/cu121`) then run `bash scripts/gpu-ci.sh pytorch`
 
 ## GitHub App auth
